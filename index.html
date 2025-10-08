@@ -1,0 +1,139 @@
+document.addEventListener('DOMContentLoaded', function() {
+    // Form elements
+    const form = document.getElementById('registrationForm');
+    const fullNameInput = document.getElementById('fullName');
+    const phoneNumberInput = document.getElementById('phoneNumber');
+    const countryCodeSelect = document.getElementById('countryCode');
+    const genderSelect = document.getElementById('gender');
+    const termsCheckbox = document.getElementById('termsConditions');
+    const termsLink = document.getElementById('termsLink');
+    const termsModal = document.getElementById('termsModal');
+    const closeModalBtn = document.querySelector('.close');
+    const acceptTermsBtn = document.getElementById('acceptTerms');
+    
+    // Error message elements
+    const fullNameError = document.getElementById('fullNameError');
+    const phoneNumberError = document.getElementById('phoneNumberError');
+    const genderError = document.getElementById('genderError');
+    const termsError = document.getElementById('termsError');
+    
+    // Terms and Conditions Modal
+    termsLink.addEventListener('click', function(e) {
+        e.preventDefault();
+        termsModal.style.display = 'block';
+    });
+    
+    closeModalBtn.addEventListener('click', function() {
+        termsModal.style.display = 'none';
+    });
+    
+    acceptTermsBtn.addEventListener('click', function() {
+        termsCheckbox.checked = true;
+        termsError.textContent = '';
+        termsModal.style.display = 'none';
+    });
+    
+    window.addEventListener('click', function(e) {
+        if (e.target === termsModal) {
+            termsModal.style.display = 'none';
+        }
+    });
+    
+    // Phone number validation based on country
+    countryCodeSelect.addEventListener('change', function() {
+        validatePhoneNumber();
+    });
+    
+    phoneNumberInput.addEventListener('input', function() {
+        validatePhoneNumber();
+    });
+    
+    function validatePhoneNumber() {
+        const selectedOption = countryCodeSelect.options[countryCodeSelect.selectedIndex];
+        const pattern = selectedOption.getAttribute('data-pattern');
+        const regex = new RegExp(pattern);
+        
+        if (phoneNumberInput.value.trim() === '') {
+            phoneNumberError.textContent = 'Phone number is required';
+            return false;
+        } else if (!regex.test(phoneNumberInput.value)) {
+            phoneNumberError.textContent = 'Please enter a valid phone number for the selected country';
+            return false;
+        } else {
+            phoneNumberError.textContent = '';
+            return true;
+        }
+    }
+    
+    // Full name validation
+    fullNameInput.addEventListener('input', function() {
+        validateFullName();
+    });
+    
+    function validateFullName() {
+        if (fullNameInput.value.trim() === '') {
+            fullNameError.textContent = 'Full name is required';
+            return false;
+        } else if (fullNameInput.value.trim().length < 3) {
+            fullNameError.textContent = 'Full name must be at least 3 characters';
+            return false;
+        } else {
+            fullNameError.textContent = '';
+            return true;
+        }
+    }
+    
+    // Gender validation
+    genderSelect.addEventListener('change', function() {
+        validateGender();
+    });
+    
+    function validateGender() {
+        if (genderSelect.value === '') {
+            genderError.textContent = 'Please select your gender';
+            return false;
+        } else {
+            genderError.textContent = '';
+            return true;
+        }
+    }
+    
+    // Terms validation
+    termsCheckbox.addEventListener('change', function() {
+        validateTerms();
+    });
+    
+    function validateTerms() {
+        if (!termsCheckbox.checked) {
+            termsError.textContent = 'You must agree to the Terms and Conditions';
+            return false;
+        } else {
+            termsError.textContent = '';
+            return true;
+        }
+    }
+    
+    // Form submission
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        // Validate all fields
+        const isFullNameValid = validateFullName();
+        const isPhoneNumberValid = validatePhoneNumber();
+        const isGenderValid = validateGender();
+        const isTermsValid = validateTerms();
+        
+        // If all validations pass, submit the form
+        if (isFullNameValid && isPhoneNumberValid && isGenderValid && isTermsValid) {
+            // Here you would typically send the data to your server
+            // For this example, we'll just show a success message
+            form.innerHTML = `
+                <div style="text-align: center; padding: 30px;">
+                    <h2 style="color: var(--success-color); margin-bottom: 20px;">Registration Successful!</h2>
+                    <p>Thank you for registering with our coffee shop.</p>
+                    <p>We'll be in touch soon!</p>
+                </div>
+            `;
+        }
+    });
+});
