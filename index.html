@@ -1,139 +1,95 @@
-document.addEventListener('DOMContentLoaded', function() {
-    // Form elements
-    const form = document.getElementById('registrationForm');
-    const fullNameInput = document.getElementById('fullName');
-    const phoneNumberInput = document.getElementById('phoneNumber');
-    const countryCodeSelect = document.getElementById('countryCode');
-    const genderSelect = document.getElementById('gender');
-    const termsCheckbox = document.getElementById('termsConditions');
-    const termsLink = document.getElementById('termsLink');
-    const termsModal = document.getElementById('termsModal');
-    const closeModalBtn = document.querySelector('.close');
-    const acceptTermsBtn = document.getElementById('acceptTerms');
-    
-    // Error message elements
-    const fullNameError = document.getElementById('fullNameError');
-    const phoneNumberError = document.getElementById('phoneNumberError');
-    const genderError = document.getElementById('genderError');
-    const termsError = document.getElementById('termsError');
-    
-    // Terms and Conditions Modal
-    termsLink.addEventListener('click', function(e) {
-        e.preventDefault();
-        termsModal.style.display = 'block';
-    });
-    
-    closeModalBtn.addEventListener('click', function() {
-        termsModal.style.display = 'none';
-    });
-    
-    acceptTermsBtn.addEventListener('click', function() {
-        termsCheckbox.checked = true;
-        termsError.textContent = '';
-        termsModal.style.display = 'none';
-    });
-    
-    window.addEventListener('click', function(e) {
-        if (e.target === termsModal) {
-            termsModal.style.display = 'none';
-        }
-    });
-    
-    // Phone number validation based on country
-    countryCodeSelect.addEventListener('change', function() {
-        validatePhoneNumber();
-    });
-    
-    phoneNumberInput.addEventListener('input', function() {
-        validatePhoneNumber();
-    });
-    
-    function validatePhoneNumber() {
-        const selectedOption = countryCodeSelect.options[countryCodeSelect.selectedIndex];
-        const pattern = selectedOption.getAttribute('data-pattern');
-        const regex = new RegExp(pattern);
-        
-        if (phoneNumberInput.value.trim() === '') {
-            phoneNumberError.textContent = 'Phone number is required';
-            return false;
-        } else if (!regex.test(phoneNumberInput.value)) {
-            phoneNumberError.textContent = 'Please enter a valid phone number for the selected country';
-            return false;
-        } else {
-            phoneNumberError.textContent = '';
-            return true;
-        }
-    }
-    
-    // Full name validation
-    fullNameInput.addEventListener('input', function() {
-        validateFullName();
-    });
-    
-    function validateFullName() {
-        if (fullNameInput.value.trim() === '') {
-            fullNameError.textContent = 'Full name is required';
-            return false;
-        } else if (fullNameInput.value.trim().length < 3) {
-            fullNameError.textContent = 'Full name must be at least 3 characters';
-            return false;
-        } else {
-            fullNameError.textContent = '';
-            return true;
-        }
-    }
-    
-    // Gender validation
-    genderSelect.addEventListener('change', function() {
-        validateGender();
-    });
-    
-    function validateGender() {
-        if (genderSelect.value === '') {
-            genderError.textContent = 'Please select your gender';
-            return false;
-        } else {
-            genderError.textContent = '';
-            return true;
-        }
-    }
-    
-    // Terms validation
-    termsCheckbox.addEventListener('change', function() {
-        validateTerms();
-    });
-    
-    function validateTerms() {
-        if (!termsCheckbox.checked) {
-            termsError.textContent = 'You must agree to the Terms and Conditions';
-            return false;
-        } else {
-            termsError.textContent = '';
-            return true;
-        }
-    }
-    
-    // Form submission
-    form.addEventListener('submit', function(e) {
-        e.preventDefault();
-        
-        // Validate all fields
-        const isFullNameValid = validateFullName();
-        const isPhoneNumberValid = validatePhoneNumber();
-        const isGenderValid = validateGender();
-        const isTermsValid = validateTerms();
-        
-        // If all validations pass, submit the form
-        if (isFullNameValid && isPhoneNumberValid && isGenderValid && isTermsValid) {
-            // Here you would typically send the data to your server
-            // For this example, we'll just show a success message
-            form.innerHTML = `
-                <div style="text-align: center; padding: 30px;">
-                    <h2 style="color: var(--success-color); margin-bottom: 20px;">Registration Successful!</h2>
-                    <p>Thank you for registering with our coffee shop.</p>
-                    <p>We'll be in touch soon!</p>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Registration</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <form id="registrationForm">
+            <h1>Customer Registration</h1>
+            
+            <!-- Full Name Field -->
+            <div class="form-group">
+                <label for="fullName">Full Name</label>
+                <div class="input-with-icon">
+                    <i class="fas fa-user"></i>
+                    <input type="text" id="fullName" name="fullName" required>
                 </div>
-            `;
-        }
-    });
-});
+                <div class="error-message" id="fullNameError"></div>
+            </div>
+            
+            <!-- Phone Number Field -->
+            <div class="form-group">
+                <label for="phoneNumber">Phone Number</label>
+                <div class="phone-input-container">
+                    <div class="country-select">
+                        <select id="countryCode" name="countryCode">
+                            <option value="+966" data-flag="🇸🇦" data-pattern="^(05|5)\d{8}$">🇸🇦 +966</option>
+                            <option value="+20" data-flag="🇪🇬" data-pattern="^(01)\d{9}$">🇪🇬 +20</option>
+                            <option value="+971" data-flag="🇦🇪" data-pattern="^(05|5)\d{8}$">🇦🇪 +971</option>
+                            <option value="+1" data-flag="🇺🇸" data-pattern="^\d{10}$">🇺🇸 +1</option>
+                        </select>
+                    </div>
+                    <input type="tel" id="phoneNumber" name="phoneNumber" required>
+                </div>
+                <div class="error-message" id="phoneNumberError"></div>
+            </div>
+            
+            <!-- Gender Field -->
+            <div class="form-group">
+                <label for="gender">Gender</label>
+                <select id="gender" name="gender" required>
+                    <option value="" disabled selected>Select gender</option>
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                </select>
+                <div class="error-message" id="genderError"></div>
+            </div>
+            
+            <!-- Terms and Conditions -->
+            <div class="form-group checkbox-group">
+                <input type="checkbox" id="termsConditions" name="termsConditions" required>
+                <label for="termsConditions">I agree to the <a href="#" id="termsLink">Terms and Conditions</a></label>
+                <div class="error-message" id="termsError"></div>
+            </div>
+            
+            <!-- Promotional Offers -->
+            <div class="form-group checkbox-group">
+                <input type="checkbox" id="promoOffers" name="promoOffers" checked>
+                <label for="promoOffers">I agree to receive promotional offers</label>
+            </div>
+            
+            <!-- Submit Button -->
+            <button type="submit" id="submitBtn">Submit</button>
+            
+            <!-- Data Safety Note -->
+            <p class="data-safety-note">Your data is safe and will not be shared.</p>
+        </form>
+        
+        <!-- Terms and Conditions Modal -->
+        <div id="termsModal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h2>Terms and Conditions</h2>
+                <div class="terms-content">
+                    <p>Welcome to our coffee shop! By registering, you agree to the following terms:</p>
+                    <ol>
+                        <li>Your personal information will be used only for service-related communications.</li>
+                        <li>We may send promotional offers if you've opted in.</li>
+                        <li>You can request to delete your data at any time.</li>
+                        <li>We follow strict data protection guidelines.</li>
+                    </ol>
+                </div>
+                <button id="acceptTerms">Accept</button>
+            </div>
+        </div>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>
