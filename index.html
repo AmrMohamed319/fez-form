@@ -183,282 +183,217 @@
       margin-bottom: 20px;
     }
 
-    /* أنماط إضافية للشروط والأحكام */
-        .modal {
-          display: none;
-          position: fixed;
-          z-index: 1000;
-          left: 0;
-          top: 0;
-          width: 100%;
-          height: 100%;
-          overflow: auto;
-          background-color: rgba(0,0,0,0.4);
-        }
+    /* أنماط إضافية لمكتبة الهاتف */
+    .iti {
+      width: 100%;
+      direction: ltr;
+    }
+    .iti__flag-container {
+      direction: ltr;
+    }
+    /* تعديل لتناسب التصميج الحالي */
+    .iti__selected-flag {
+      border-radius: 10px 0 0 10px;
+    }
+    .iti input {
+      border-radius: 10px;
+    }
+    /* تخصيص لون الحدود عند التركيز */
+    .iti--focus .iti__selected-flag {
+      background-color: rgba(255, 64, 129, 0.05);
+    }
+    .iti input:focus {
+      border-color: var(--pink);
+      outline: none;
+    }
     
-        .modal-content {
-          background-color: var(--white-transparent);
-          margin: 5% auto;
-          padding: 20px;
-          border-radius: 15px;
-          box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-          width: 90%;
-          max-width: 600px;
-          max-height: 80vh;
-          overflow-y: auto;
-          position: relative;
-        }
+    /* تعديلات إضافية للتوافق مع RTL */
+    .phone-container {
+      direction: ltr;
+      text-align: left;
+    }
     
-        .close-modal {
-          color: var(--pink);
-          position: absolute;
-          top: 10px;
-          left: 15px;
-          font-size: 28px;
-          font-weight: bold;
-          cursor: pointer;
-        }
-    
-        .terms-content {
-          text-align: right;
-          direction: rtl;
-          line-height: 1.6;
-          font-size: 14px;
-        }
-    
-        .terms-content h3 {
-          color: var(--pink);
-          margin-top: 15px;
-          margin-bottom: 10px;
-        }
-    
-        .terms-content p {
-          margin-bottom: 10px;
-        }
-    
-        .terms-link {
-          color: var(--pink);
-          text-decoration: underline;
-          cursor: pointer;
-        }
-      </style>
-    </head>
-    
-    <body>
-      <div class="form-wrapper">
-        <div class="logo">
-          <span class="f">F</span><span class="e">E</span><span class="z">Z</span>
-        </div>
-        <div class="sub-logo">SPECIALTY COFFEE</div>
-    
-        <form id="registerForm" novalidate>
-          <div class="form-group">
-            <label for="name">الاسم الكامل</label>
-            <input type="text" id="name" name="name" placeholder="أدخل الاسم" required>
-            <div class="error-msg" id="error-name">يرجى إدخال الاسم</div>
-          </div>
-    
-          <div class="form-group">
-            <label for="phone">رقم الهاتف</label>
-            <div class="phone-container">
-              <input type="tel" id="phone" name="phone" placeholder="أدخل رقم الهاتف" required>
-            </div>
-            <div class="error-msg" id="error-phone">يرجى إدخال رقم هاتف صحيح</div>
-          </div>
-    
-          <div class="form-group">
-            <label for="gender">الجنس</label>
-            <select id="gender" name="gender" required>
-              <option value="">اختر الجنس</option>
-              <option value="male">ذكر</option>
-              <option value="female">أنثى</option>
-            </select>
-            <div class="error-msg" id="error-gender">يرجى اختيار الجنس</div>
-          </div>
-    
-          <div class="checkbox-group">
-            <label>
-              <input type="checkbox" id="terms" name="terms" required>
-              أوافق على <a href="#" class="terms-link" id="openTerms">الشروط والأحكام</a>
-            </label>
-            <div class="error-msg" id="error-terms">مطلوب الموافقة على الشروط</div>
-            <div style="margin-top: 5px; font-size: 13px;">
-              <a href="#" class="terms-link" id="openTermsPolicy">الاطلاع على سياسة الشروط والأحكام</a>
-            </div>
-          </div>
-    
-          <div class="checkbox-group">
-            <label>
-              <input type="checkbox" id="offers" name="offers" checked>
-              أوافق على تلقي العروض الترويجية
-            </label>
-          </div>
-    
-          <button type="submit" class="submit-btn">تسجيل الآن</button>
-    
-          <div class="form-note">بياناتك آمنة ولن يتم مشاركتها.</div>
-        </form>
-        
-        <!-- تعديل رسالة النجاح لتكون خارج الفورم -->
-        <div class="success-message" id="successMsg">
-          <div class="success-icon">✅</div>
-          تم التسجيل بنجاح!<br>
-          شكرًا لانضمامك لعائلة FEZ ☕️
-        </div>
+    .iti__country-list {
+      text-align: left;
+      direction: ltr;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="form-wrapper">
+    <div class="logo">
+      <span class="f">F</span><span class="e">E</span><span class="z">Z</span>
+    </div>
+    <div class="sub-logo">SPECIALTY COFFEE</div>
+
+    <form id="registerForm" novalidate>
+      <div class="form-group">
+        <label for="name">الاسم الكامل</label>
+        <input type="text" id="name" name="name" placeholder="أدخل الاسم" required>
+        <div class="error-msg" id="error-name">يرجى إدخال الاسم</div>
       </div>
-    
-      <!-- إضافة نافذة الشروط والأحكام -->
-      <div id="termsModal" class="modal">
-        <div class="modal-content">
-          <span class="close-modal" id="closeTerms">&times;</span>
-          <div class="terms-content">
-            <h3>سياسة الخصوصية لبرنامج الولاء "فيز"</h3>
-            <p><strong>آخر تحديث:</strong> 9 أكتوبر 2025</p>
-            <p><strong>المتحكّم بالبيانات (المنشأة):</strong> مقهى فيز لتقديم المشروبات</p>
-            <p><strong>العنوان المختصر:</strong> شارع أبو بكر الصديق، مبنى 3920، حي المصيف، حفر الباطن 39913، المملكة العربية السعودية</p>
-            <p><strong>البريد الإلكتروني:</strong> fezcafe1@gmail.com</p>
-            <p><strong>الهاتف/واتساب:</strong> 0550672035</p>
-            <p><strong>مسؤول حماية البيانات/نقطة الاتصال:</strong> fezcafe1@gmail.com</p>
-    
-            <h3>1) الغرض والنطاق</h3>
-            <p>توضح هذه السياسة كيفية جمع بياناتكم الشخصية واستخدامها والإفصاح عنها وحمايتها عند استخدام برنامء "فيز" الذي يعتمد على كاميرات ANPR لاحتساب المكافآت تلقائيًا. تنطبق على الأفراد داخل المملكة الذين نعالج بياناتهم، ونلتزم بـ نظام حماية البيانات الشخصية السعودي (PDPL) ولوائحه التنفيذية.</p>
-    
-            <h3>2) ما نجمعه (أقل قدر ممكن)</h3>
-            <p>بيانات تعريف العميل: الاسم، رقم الجوال (إذا اخترت استلام إشعارات).</p>
-            <p>بيانات المركبة: رقم لوحة المركبة، وقت/تاريخ المرور، (وقد تُلتقط لقطة للصورة عند اللزوم)، نسبة/درجة الثقة.</p>
-            <p>بيانات الولاء: عدد الزيارات، الرصيد بالريال، قيمة الفواتير (لا نخزّن بيانات بطاقات الدفع).</p>
-            <p>بيانات تقنية تشغيلية: سجلات النظام، عنوان IP للأجهزة المرتبطة بالشاشات/الخوادم الداخلية.</p>
-    
-            <h3>3) لماذا نعالج بياناتك؟</h3>
-            <p>تشغيل الولاء: ربط رقم لوحتك بملفك لتسجيل الزيارات تلقائيًا، واحتساب المكافآت وإظهار الرصيد بالريال على شاشة الترحيب أو التطبيق.</p>
-            <p>خدمة العملاء (اختياري): إرسال تنبيهات الرصيد أو العروض عبر قنوات توافق عليها (مثل واتساب أو الرسائل النصية).</p>
-            <p>السلامة والجودة: منع التكرار، التدقيق، اختبارات الأداء، وتحسين الخدمة.</p>
-            <p>الأساس النظامي: موافقتك الصريحة على الانضمام لبرنامء الولاء وربط رقم لوحتك ببياناتك لهذا الغرض فقط. يمكنك سحب الموافقة في أي وقت.</p>
-    
-            <!-- ... باقي محتوى الشروط والأحكام ... -->
-            <h3>16) التواصل</h3>
-            <p>البريد الإلكتروني: fezcafe1@gmail.com</p>
-            <p>الهاتف/واتساب: 0550672035</p>
-            <p>العنوان: شارع أبو بكر الصديق، مبنى 3920، حي المصيف، حفر الباطن 39913، المملكة العربية السعودية</p>
-            <p>مسؤول حماية البيانات/نقطة الاتصال: fezcafe1@gmail.com</p>
-          </div>
+
+      <div class="form-group">
+        <label for="phone">رقم الهاتف</label>
+        <div class="phone-container">
+          <input type="tel" id="phone" name="phone" placeholder="أدخل رقم الهاتف" required>
         </div>
+        <div class="error-msg" id="error-phone">يرجى إدخال رقم هاتف صحيح</div>
       </div>
+
+      <div class="form-group">
+        <label for="gender">الجنس</label>
+        <select id="gender" name="gender" required>
+          <option value="">اختر الجنس</option>
+          <option value="male">ذكر</option>
+          <option value="female">أنثى</option>
+        </select>
+        <div class="error-msg" id="error-gender">يرجى اختيار الجنس</div>
+      </div>
+
+      <div class="checkbox-group">
+        <label>
+          <input type="checkbox" id="terms" name="terms" required>
+          أوافق على <a href="#" target="_blank">الشروط والأحكام</a>
+        </label>
+        <div class="error-msg" id="error-terms">مطلوب الموافقة على الشروط</div>
+      </div>
+
+      <div class="checkbox-group">
+        <label>
+          <input type="checkbox" id="offers" name="offers" checked>
+          أوافق على تلقي العروض الترويجية
+        </label>
+      </div>
+
+      <button type="submit" class="submit-btn">تسجيل الآن</button>
+
+      <div class="form-note">بياناتك آمنة ولن يتم مشاركتها.</div>
+    </form>
     
-      <!-- إضافة مكتبات JavaScript -->
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.13/js/intlTelInput.min.js"></script>
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.13/js/utils.js"></script>
+    <!-- تعديل رسالة النجاح لتكون خارج الفورم -->
+    <div class="success-message" id="successMsg">
+      <div class="success-icon">✅</div>
+      تم التسجيل بنجاح!<br>
+      شكرًا لانضمامك لعائلة FEZ ☕️
+    </div>
+  </div>
+
+  <!-- إضافة مكتبات JavaScript -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.13/js/intlTelInput.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.13/js/utils.js"></script>
+
+  <script>
+    // تهيئة مكتبة الهاتف الدولي
+    const phoneInput = document.querySelector("#phone");
+    const iti = window.intlTelInput(phoneInput, {
+      utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.13/js/utils.js",
+      initialCountry: "sa", // السعودية كدولة افتراضية
+      preferredCountries: ["sa", "eg", "ae", "kw", "bh", "qa", "om"], // الدول المفضلة في المقدمة
+      separateDialCode: true, // عرض كود الدولة منفصلاً
+      autoPlaceholder: "aggressive", // تلميح تلقائي حسب الدولة
+      customPlaceholder: function(selectedCountryPlaceholder, selectedCountryData) {
+        return "أدخل " + selectedCountryPlaceholder;
+      },
+      // تعديل نصوص القائمة للغة العربية
+      i18n: {
+        search: "بحث",
+        searchPlaceholder: "بحث عن دولة..."
+      }
+    });
     
-      <script>
-        // تهيئة مكتبة الهاتف الدولي
-        const phoneInput = document.querySelector("#phone");
-        const iti = window.intlTelInput(phoneInput, {
-          utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.13/js/utils.js",
-          initialCountry: "sa", // السعودية كدولة افتراضية
-          preferredCountries: ["sa", "eg", "ae", "kw", "bh", "qa", "om"], // الدول المفضلة في المقدمة
-          separateDialCode: true, // عرض كود الدولة منفصلاً
-          autoPlaceholder: "aggressive", // تلميح تلقائي حسب الدولة
-          customPlaceholder: function(selectedCountryPlaceholder, selectedCountryData) {
-            return "أدخل " + selectedCountryPlaceholder;
-          },
-          // تعديل نصوص القائمة للغة العربية
-          i18n: {
-            search: "بحث",
-            searchPlaceholder: "بحث عن دولة..."
-          }
-        });
+    // إضافة تعديل لتحسين تجربة المستخدم مع اللغة العربية
+    document.addEventListener('click', function(e) {
+      if (e.target.classList.contains('iti__search-input')) {
+        e.target.style.textAlign = 'left';
+        e.target.style.direction = 'ltr';
+      }
+    });
+
+    // مثال بسيط للتحقق مبدئي
+    document.getElementById('registerForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      // مسح أي أخطاء سابقة
+      document.querySelectorAll('.error-msg').forEach(el => el.style.display = 'none');
+
+      let valid = true;
+      const name = document.getElementById('name').value.trim();
+      const gender = document.getElementById('gender').value;
+      const terms = document.getElementById('terms').checked;
+
+      // التحقق من الاسم والجنس والشروط
+      if (!name) {
+        valid = false;
+        document.getElementById('error-name').style.display = 'block';
+      }
+      if (!gender) {
+        valid = false;
+        document.getElementById('error-gender').style.display = 'block';
+      }
+      if (!terms) {
+        valid = false;
+        document.getElementById('error-terms').style.display = 'block';
+      }
+
+      // التحقق من رقم الهاتف باستخدام المكتبة
+      if (!iti.isValidNumber()) {
+        valid = false;
+        document.getElementById('error-phone').textContent = 'يرجى إدخال رقم هاتف صحيح للدولة المختارة';
+        document.getElementById('error-phone').style.display = 'block';
+      }
+
+      if (!valid) return;
+
+      // الحصول على الرقم بالتنسيق الدولي
+      const fullPhone = iti.getNumber();
+
+      // بيانات للتجربة
+      const data = {
+        name,
+        phone: fullPhone,
+        gender,
+        accept_terms: terms,
+        accept_offers: document.getElementById('offers').checked
+      };
+
+      console.log("Sending data:", data);
+      
+      // إرسال البيانات عبر webhook
+      fetch('https://amr319.shop/webhook/form', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data)
+      })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json();
+      })
+      .then(data => {
+        console.log('Success:', data);
         
-        // إضافة تعديل لتحسين تجربة المستخدم مع اللغة العربية
-        document.addEventListener('click', function(e) {
-          if (e.target.classList.contains('iti__search-input')) {
-            e.target.style.textAlign = 'left';
-            e.target.style.direction = 'ltr';
-          }
-        });
-    
-        // مثال بسيط للتحقق مبدئي
-        document.getElementById('registerForm').addEventListener('submit', function(e) {
-          e.preventDefault();
-          // مسح أي أخطاء سابقة
-          document.querySelectorAll('.error-msg').forEach(el => el.style.display = 'none');
-    
-          let valid = true;
-          const name = document.getElementById('name').value.trim();
-          const gender = document.getElementById('gender').value;
-          const terms = document.getElementById('terms').checked;
-    
-          // التحقق من الاسم والجنس والشروط
-          if (!name) {
-            valid = false;
-            document.getElementById('error-name').style.display = 'block';
-          }
-          if (!gender) {
-            valid = false;
-            document.getElementById('error-gender').style.display = 'block';
-          }
-          if (!terms) {
-            valid = false;
-            document.getElementById('error-terms').style.display = 'block';
-          }
-    
-          // التحقق من رقم الهاتف باستخدام المكتبة
-          if (!iti.isValidNumber()) {
-            valid = false;
-            document.getElementById('error-phone').textContent = 'يرجى إدخال رقم هاتف صحيح للدولة المختارة';
-            document.getElementById('error-phone').style.display = 'block';
-          }
-    
-          if (!valid) return;
-    
-          // الحصول على الرقم بالتنسيق الدولي
-          const fullPhone = iti.getNumber();
-    
-          // بيانات للتجربة
-          const data = {
-            name,
-            phone: fullPhone,
-            gender,
-            accept_terms: terms,
-            accept_offers: document.getElementById('offers').checked
-          };
-    
-          console.log("Sending data:", data);
-          
-          // إرسال البيانات عبر webhook
-          fetch('https://amr319.shop/webhook/form', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(data)
-          })
-          .then(response => {
-            if (!response.ok) {
-              throw new Error('Network response was not ok');
-            }
-            return response.json();
-          })
-          .then(data => {
-            console.log('Success:', data);
-            
-            // إخفاء الفورم وإظهار رسالة النجاح
-            document.getElementById('registerForm').style.display = 'none';
-            const successMsg = document.getElementById('successMsg');
-            successMsg.style.display = 'block';
-            
-            // إضافة فئة للرسالة لتظهر في المنتصف
-            successMsg.classList.add('success-only');
-          })
-          .catch(error => {
-            console.error('Error:', error);
-            // في حالة حدوث خطأ، نظهر رسالة النجاح على أي حال
-            // يمكن تعديل هذا السلوك حسب الحاجة
-            document.getElementById('registerForm').style.display = 'none';
-            const successMsg = document.getElementById('successMsg');
-            successMsg.style.display = 'block';
-            successMsg.classList.add('success-only');
-          });
-        });
-      </script>
-    </body>
-    </html>
+        // إخفاء الفورم وإظهار رسالة النجاح
+        document.getElementById('registerForm').style.display = 'none';
+        const successMsg = document.getElementById('successMsg');
+        successMsg.style.display = 'block';
+        
+        // إضافة فئة للرسالة لتظهر في المنتصف
+        successMsg.classList.add('success-only');
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        // في حالة حدوث خطأ، نظهر رسالة النجاح على أي حال
+        // يمكن تعديل هذا السلوك حسب الحاجة
+        document.getElementById('registerForm').style.display = 'none';
+        const successMsg = document.getElementById('successMsg');
+        successMsg.style.display = 'block';
+        successMsg.classList.add('success-only');
+      });
+    });
+  </script>
+</body>
+</html>
