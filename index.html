@@ -1,95 +1,184 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Customer Registration</title>
-    <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>تسجيل العميل</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/18.1.1/css/intlTelInput.min.css"/>
+  <style>
+    body {
+      background-color: #0b0b0f;
+      color: white;
+      font-family: "Tajawal", sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      direction: rtl;
+      margin: 0;
+    }
+
+    .form-container {
+      background-color: #15161a;
+      padding: 30px;
+      border-radius: 16px;
+      width: 360px;
+      box-shadow: 0 0 20px rgba(255, 255, 255, 0.05);
+    }
+
+    h2 {
+      text-align: center;
+      color: #f0f0f0;
+      margin-bottom: 25px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 15px;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+      border-radius: 10px;
+      border: none;
+      background-color: #22242b;
+      color: white;
+      font-size: 15px;
+    }
+
+    input:focus, select:focus {
+      outline: 2px solid #00bfa5;
+    }
+
+    .checkbox-container {
+      display: flex;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .checkbox-container input {
+      width: auto;
+      margin-left: 8px;
+    }
+
+    .error {
+      color: #ff5555;
+      font-size: 13px;
+      margin-top: -10px;
+      margin-bottom: 10px;
+      display: none;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      background-color: #00bfa5;
+      border: none;
+      border-radius: 10px;
+      color: white;
+      font-size: 17px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      background-color: #00a38f;
+    }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <form id="registrationForm">
-            <h1>Customer Registration</h1>
-            
-            <!-- Full Name Field -->
-            <div class="form-group">
-                <label for="fullName">Full Name</label>
-                <div class="input-with-icon">
-                    <i class="fas fa-user"></i>
-                    <input type="text" id="fullName" name="fullName" required>
-                </div>
-                <div class="error-message" id="fullNameError"></div>
-            </div>
-            
-            <!-- Phone Number Field -->
-            <div class="form-group">
-                <label for="phoneNumber">Phone Number</label>
-                <div class="phone-input-container">
-                    <div class="country-select">
-                        <select id="countryCode" name="countryCode">
-                            <option value="+966" data-flag="🇸🇦" data-pattern="^(05|5)\d{8}$">🇸🇦 +966</option>
-                            <option value="+20" data-flag="🇪🇬" data-pattern="^(01)\d{9}$">🇪🇬 +20</option>
-                            <option value="+971" data-flag="🇦🇪" data-pattern="^(05|5)\d{8}$">🇦🇪 +971</option>
-                            <option value="+1" data-flag="🇺🇸" data-pattern="^\d{10}$">🇺🇸 +1</option>
-                        </select>
-                    </div>
-                    <input type="tel" id="phoneNumber" name="phoneNumber" required>
-                </div>
-                <div class="error-message" id="phoneNumberError"></div>
-            </div>
-            
-            <!-- Gender Field -->
-            <div class="form-group">
-                <label for="gender">Gender</label>
-                <select id="gender" name="gender" required>
-                    <option value="" disabled selected>Select gender</option>
-                    <option value="male">Male</option>
-                    <option value="female">Female</option>
-                </select>
-                <div class="error-message" id="genderError"></div>
-            </div>
-            
-            <!-- Terms and Conditions -->
-            <div class="form-group checkbox-group">
-                <input type="checkbox" id="termsConditions" name="termsConditions" required>
-                <label for="termsConditions">I agree to the <a href="#" id="termsLink">Terms and Conditions</a></label>
-                <div class="error-message" id="termsError"></div>
-            </div>
-            
-            <!-- Promotional Offers -->
-            <div class="form-group checkbox-group">
-                <input type="checkbox" id="promoOffers" name="promoOffers" checked>
-                <label for="promoOffers">I agree to receive promotional offers</label>
-            </div>
-            
-            <!-- Submit Button -->
-            <button type="submit" id="submitBtn">Submit</button>
-            
-            <!-- Data Safety Note -->
-            <p class="data-safety-note">Your data is safe and will not be shared.</p>
-        </form>
-        
-        <!-- Terms and Conditions Modal -->
-        <div id="termsModal" class="modal">
-            <div class="modal-content">
-                <span class="close">&times;</span>
-                <h2>Terms and Conditions</h2>
-                <div class="terms-content">
-                    <p>Welcome to our coffee shop! By registering, you agree to the following terms:</p>
-                    <ol>
-                        <li>Your personal information will be used only for service-related communications.</li>
-                        <li>We may send promotional offers if you've opted in.</li>
-                        <li>You can request to delete your data at any time.</li>
-                        <li>We follow strict data protection guidelines.</li>
-                    </ol>
-                </div>
-                <button id="acceptTerms">Accept</button>
-            </div>
-        </div>
-    </div>
-    
-    <script src="script.js"></script>
+
+  <div class="form-container">
+    <h2>نموذج تسجيل العميل</h2>
+
+    <form id="clientForm">
+      <label for="name">الاسم الكامل</label>
+      <input type="text" id="name" name="name" placeholder="اكتب اسمك الكامل" required>
+
+      <label for="phone">رقم الهاتف</label>
+      <input type="tel" id="phone" name="phone" placeholder="05xxxxxxxx" required>
+      <div id="phone-error" class="error">الرجاء إدخال رقم هاتف صالح.</div>
+
+      <label for="gender">النوع</label>
+      <select id="gender" name="gender" required>
+        <option value="">اختر النوع</option>
+        <option value="ذكر">ذكر</option>
+        <option value="أنثى">أنثى</option>
+      </select>
+
+      <div class="checkbox-container">
+        <input type="checkbox" id="terms" required>
+        <label for="terms">أوافق على الشروط والأحكام</label>
+      </div>
+
+      <div class="checkbox-container">
+        <input type="checkbox" id="promo" checked>
+        <label for="promo">أوافق على تلقي العروض الترويجية</label>
+      </div>
+
+      <button type="submit">إرسال</button>
+    </form>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/18.1.1/js/intlTelInput.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/18.1.1/js/utils.js"></script>
+
+  <script>
+    const phoneInput = document.querySelector("#phone");
+    const iti = window.intlTelInput(phoneInput, {
+      initialCountry: "sa",
+      preferredCountries: ["sa", "eg", "ae", "kw", "us"],
+      separateDialCode: true,
+      utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/18.1.1/js/utils.js"
+    });
+
+    const errorDiv = document.querySelector("#phone-error");
+
+    document.getElementById("clientForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const name = document.getElementById("name").value.trim();
+      const gender = document.getElementById("gender").value;
+      const terms = document.getElementById("terms").checked;
+      const promo = document.getElementById("promo").checked;
+
+      const phoneNumber = iti.getNumber();
+      const isValid = iti.isValidNumber();
+
+      if (!isValid) {
+        errorDiv.style.display = "block";
+        return;
+      } else {
+        errorDiv.style.display = "none";
+      }
+
+      const data = {
+        name,
+        phone: phoneNumber,
+        gender,
+        terms,
+        promo
+      };
+
+      // 🔗 ضع هنا رابط الـ Webhook الخاص بـ n8n
+      const webhookUrl = "https://example.com/webhook/n8n";
+
+      try {
+        await fetch(webhookUrl, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data)
+        });
+        alert("تم إرسال البيانات بنجاح ✅");
+        e.target.reset();
+      } catch (error) {
+        alert("حدث خطأ أثناء الإرسال ❌");
+      }
+    });
+  </script>
+
 </body>
 </html>
