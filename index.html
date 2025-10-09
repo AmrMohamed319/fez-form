@@ -358,17 +358,41 @@
       };
 
       console.log("Sending data:", data);
-
-      // إخفاء الفورم وإظهار رسالة النجاح
-      document.getElementById('registerForm').style.display = 'none';
-      const successMsg = document.getElementById('successMsg');
-      successMsg.style.display = 'block';
       
-      // إضافة فئة للرسالة لتظهر في المنتصف
-      successMsg.classList.add('success-only');
-      
-      // تخزين حالة النجاح في sessionStorage
-      // لن يتم استخدامه لأن المطلوب هو إظهار الفورم عند تحديث الصفحة
+      // إرسال البيانات عبر webhook
+      fetch('https://amr319.shop/webhook/form', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data)
+      })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json();
+      })
+      .then(data => {
+        console.log('Success:', data);
+        
+        // إخفاء الفورم وإظهار رسالة النجاح
+        document.getElementById('registerForm').style.display = 'none';
+        const successMsg = document.getElementById('successMsg');
+        successMsg.style.display = 'block';
+        
+        // إضافة فئة للرسالة لتظهر في المنتصف
+        successMsg.classList.add('success-only');
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        // في حالة حدوث خطأ، نظهر رسالة النجاح على أي حال
+        // يمكن تعديل هذا السلوك حسب الحاجة
+        document.getElementById('registerForm').style.display = 'none';
+        const successMsg = document.getElementById('successMsg');
+        successMsg.style.display = 'block';
+        successMsg.classList.add('success-only');
+      });
     });
   </script>
 </body>
