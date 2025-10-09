@@ -1,184 +1,474 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>تسجيل العميل</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/18.1.1/css/intlTelInput.min.css"/>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>تسجيل في FEZ Café</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Bubblegum+Sans&family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+
+  <!-- intl-tel-input CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/18.1.1/css/intlTelInput.css"/>
+
   <style>
-    body {
-      background-color: #0b0b0f;
-      color: white;
-      font-family: "Tajawal", sans-serif;
+    :root {
+      --pink: #FF4081;
+      --bg: #FFCDD2;
+      --text: #222;
+      --muted: #555;
+      --white-transparent: rgba(255,255,255,0.95);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+    body, html {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      font-family: 'Cairo', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      direction: rtl;
       display: flex;
       justify-content: center;
       align-items: center;
-      height: 100vh;
-      direction: rtl;
-      margin: 0;
     }
 
-    .form-container {
-      background-color: #15161a;
-      padding: 30px;
-      border-radius: 16px;
-      width: 360px;
-      box-shadow: 0 0 20px rgba(255, 255, 255, 0.05);
-    }
-
-    h2 {
+    .form-wrapper {
+      width: 90%;
+      max-width: 450px;
+      background: var(--white-transparent);
+      border-radius: 18px;
+      box-shadow: 0 8px 28px rgba(31,38,135,0.12);
+      padding: 30px 25px;
       text-align: center;
-      color: #f0f0f0;
+    }
+
+    .logo {
+      font-family: 'Bubblegum Sans', cursive;
+      font-size: clamp(40px, 8vw, 90px);
+      letter-spacing: clamp(8px, 2vw, 16px);
+      margin-bottom: 10px;
+    }
+    .logo .f { color: var(--pink); }
+    .logo .e, .logo .z { color: #fff; text-shadow: 2px 2px 4px rgba(0,0,0,0.2); }
+
+    .sub-logo {
+      font-size: clamp(14px, 2vw, 20px);
+      letter-spacing: 4px;
+      color: var(--muted);
+      text-transform: uppercase;
       margin-bottom: 25px;
     }
 
-    label {
+    .form-group {
+      margin-bottom: 18px;
+      text-align: right;
+    }
+    .form-group label {
       display: block;
-      margin-bottom: 8px;
-      font-size: 15px;
+      margin-bottom: 6px;
+      font-weight: 700;
     }
 
-    input, select {
+    /* keep the original inputs style */
+    .form-group input,
+    .form-group select {
       width: 100%;
       padding: 10px;
-      margin-bottom: 15px;
+      border: 1px solid #ccc;
       border-radius: 10px;
-      border: none;
-      background-color: #22242b;
-      color: white;
-      font-size: 15px;
+      font-size: 16px;
+      direction: ltr;
+    }
+    .form-group input:focus,
+    .form-group select:focus {
+      border-color: var(--pink);
+      outline: none;
     }
 
-    input:focus, select:focus {
-      outline: 2px solid #00bfa5;
-    }
-
-    .checkbox-container {
+    /* phone specific wrapper to keep layout identical */
+    .phone-row {
       display: flex;
+      gap: 8px;
       align-items: center;
-      margin-bottom: 10px;
+    }
+    .iti { width: 30% !important; } /* country dropdown area width */
+    .iti__flag { /* make flags visible and aligned */
+      box-shadow: none;
+    }
+    /* adjust the tel input to match the rest */
+    #phoneLocal {
+      flex: 1;
+      padding: 10px;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+      background: white;
+      font-size: 16px;
+      direction: ltr;
     }
 
-    .checkbox-container input {
-      width: auto;
-      margin-left: 8px;
+    .checkbox-group {
+      margin: 12px 0;
+      text-align: right;
+    }
+    .checkbox-group label {
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--text);
+    }
+    .checkbox-group input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      accent-color: var(--pink);
     }
 
-    .error {
-      color: #ff5555;
-      font-size: 13px;
-      margin-top: -10px;
-      margin-bottom: 10px;
+    .error-msg {
+      color: var(--pink);
+      font-size: 14px;
+      margin-top: 5px;
       display: none;
+      text-align: right;
     }
 
-    button {
+    .submit-btn {
       width: 100%;
       padding: 12px;
-      background-color: #00bfa5;
-      border: none;
-      border-radius: 10px;
+      background-color: var(--pink);
       color: white;
-      font-size: 17px;
+      font-size: 18px;
+      border: none;
+      border-radius: 30px;
       cursor: pointer;
-      transition: 0.3s;
+      transition: background-color 0.3s ease;
+      margin-top: 15px;
+    }
+    .submit-btn:hover {
+      background-color: #e73370;
     }
 
-    button:hover {
-      background-color: #00a38f;
+    .form-note {
+      margin-top: 12px;
+      font-size: 14px;
+      color: var(--muted);
+    }
+
+    .success-message {
+      color: var(--pink);
+      font-size: 16px;
+      display: none;
+      margin-top: 15px;
+    }
+
+    /* override intl-tel-input country list items to show short code + flag + dial */
+    /* styling the country list to be RTL-friendly */
+    .iti__country-list {
+      direction: ltr; /* keep list LTR for flags and codes */
+    }
+    .iti__country .iti__country-name {
+      white-space: nowrap;
+    }
+    /* small responsive tweak */
+    @media (max-width: 480px) {
+      .iti { width: 40% !important; }
     }
   </style>
 </head>
+
 <body>
+  <div class="form-wrapper">
+    <div class="logo">
+      <span class="f">F</span><span class="e">E</span><span class="z">Z</span>
+    </div>
+    <div class="sub-logo">SPECIALTY COFFEE</div>
 
-  <div class="form-container">
-    <h2>نموذج تسجيل العميل</h2>
-
-    <form id="clientForm">
-      <label for="name">الاسم الكامل</label>
-      <input type="text" id="name" name="name" placeholder="اكتب اسمك الكامل" required>
-
-      <label for="phone">رقم الهاتف</label>
-      <input type="tel" id="phone" name="phone" placeholder="05xxxxxxxx" required>
-      <div id="phone-error" class="error">الرجاء إدخال رقم هاتف صالح.</div>
-
-      <label for="gender">النوع</label>
-      <select id="gender" name="gender" required>
-        <option value="">اختر النوع</option>
-        <option value="ذكر">ذكر</option>
-        <option value="أنثى">أنثى</option>
-      </select>
-
-      <div class="checkbox-container">
-        <input type="checkbox" id="terms" required>
-        <label for="terms">أوافق على الشروط والأحكام</label>
+    <form id="registerForm" novalidate>
+      <div class="form-group">
+        <label for="name">الاسم الكامل</label>
+        <input type="text" id="name" name="name" placeholder="أدخل الاسم" required>
+        <div class="error-msg" id="error-name">يرجى إدخال الاسم</div>
       </div>
 
-      <div class="checkbox-container">
-        <input type="checkbox" id="promo" checked>
-        <label for="promo">أوافق على تلقي العروض الترويجية</label>
+      <div class="form-group">
+        <label for="phone">رقم الهاتف</label>
+
+        <!-- phone row: intl-tel-input will be initialized on the hidden input -->
+        <div class="phone-row">
+          <!-- placeholder element for intl-tel-input (will become the country selector) -->
+          <input id="iti_selector" style="display:none;">
+          <!-- visible phone local input (keeps original look) -->
+          <input type="tel" id="phoneLocal" name="phoneLocal" placeholder="أدخل رقم الهاتف" required>
+        </div>
+
+        <div class="error-msg" id="error-phone">يرجى إدخال رقم هاتف صحيح</div>
       </div>
 
-      <button type="submit">إرسال</button>
+      <div class="form-group">
+        <label for="gender">الجنس</label>
+        <select id="gender" name="gender" required>
+          <option value="">اختر الجنس</option>
+          <option value="male">ذكر</option>
+          <option value="female">أنثى</option>
+        </select>
+        <div class="error-msg" id="error-gender">يرجى اختيار الجنس</div>
+      </div>
+
+      <div class="checkbox-group">
+        <label>
+          <input type="checkbox" id="terms" name="terms" required>
+          أوافق على <a href="#" target="_blank">الشروط والأحكام</a>
+        </label>
+        <div class="error-msg" id="error-terms">مطلوب الموافقة على الشروط</div>
+      </div>
+
+      <div class="checkbox-group">
+        <label>
+          <input type="checkbox" id="offers" name="offers" checked>
+          أوافق على تلقي العروض الترويجية
+        </label>
+      </div>
+
+      <button type="submit" class="submit-btn">تسجيل الآن</button>
+
+      <div class="form-note">بياناتك آمنة ولن يتم مشاركتها.</div>
+      <div class="success-message" id="successMsg">✅ تم التسجيل بنجاح! شكرًا لانضمامك لعائلة FEZ ☕️</div>
     </form>
   </div>
 
+  <!-- intl-tel-input JS + utils -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/18.1.1/js/intlTelInput.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/18.1.1/js/utils.js"></script>
 
   <script>
-    const phoneInput = document.querySelector("#phone");
-    const iti = window.intlTelInput(phoneInput, {
+    // Helper: convert ISO2 (eg "sa") to emoji flag (🇸🇦)
+    function iso2ToFlagEmoji(iso2) {
+      if (!iso2) return '🏳️';
+      const codePoints = [...iso2.toUpperCase()].map(c => 0x1F1E6 + c.charCodeAt(0) - 65);
+      return String.fromCodePoint(...codePoints);
+    }
+
+    // قائمة الدول قصيرة للترتيب المبدئي (يمكن توسيع/تعديل)
+    // intl-tel-input توفر كل الدول افتراضياً - سنعتمد على ذلك
+    const itiElement = document.querySelector("#iti_selector");
+    // create a hidden input that will be attached to intlTelInput
+    itiElement.type = "tel";
+
+    const iti = window.intlTelInput(itiElement, {
       initialCountry: "sa",
-      preferredCountries: ["sa", "eg", "ae", "kw", "us"],
+      preferredCountries: ["sa","eg","ae","kw","om","qa","bh","us"],
       separateDialCode: true,
-      utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/18.1.1/js/utils.js"
+      utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/18.1.1/js/utils.js",
+      autoPlaceholder: "aggressive",
+      // keep dropdown open behavior default
     });
 
-    const errorDiv = document.querySelector("#phone-error");
+    // After the plugin builds the country list, rewrite each country display to "🇸🇦 SA +966"
+    function rewriteCountryListItems() {
+      const list = document.querySelectorAll(".iti__country");
+      list.forEach(li => {
+        try {
+          const iso = li.getAttribute("data-country-code"); // e.g. 'sa'
+          const dial = li.getAttribute("data-dial-code");   // e.g. '966'
+          const nameEl = li.querySelector(".iti__country-name");
+          if (!nameEl) return;
+          const flag = iso2ToFlagEmoji(iso);
+          // replace content with "🇸🇦 SA +966"
+          nameEl.textContent = `${flag} ${iso.toUpperCase()} +${dial}`;
+        } catch (e) {
+          // ignore per-item errors
+        }
+      });
+    }
 
-    document.getElementById("clientForm").addEventListener("submit", async (e) => {
-      e.preventDefault();
+    // Wait until the country list exists, then rewrite names.
+    // The list is created lazily; rewrite when dropdown opens & once on init.
+    document.addEventListener("click", function onDocClick(e) {
+      if (e.target.closest('.iti__selected-flag') || e.target.closest('.iti__country-list')) {
+        // rewrite when user opens dropdown
+        setTimeout(rewriteCountryListItems, 10);
+      }
+    });
+    // also run once after short delay to catch initial rendering
+    setTimeout(rewriteCountryListItems, 500);
 
-      const name = document.getElementById("name").value.trim();
-      const gender = document.getElementById("gender").value;
-      const terms = document.getElementById("terms").checked;
-      const promo = document.getElementById("promo").checked;
+    // We will display the selected country flag + ISO next to the phone input visually.
+    // Create a small badge on the left of phoneLocal to mimic original select area.
+    const phoneLocal = document.getElementById('phoneLocal');
 
-      const phoneNumber = iti.getNumber();
+    // create container around input to show selected badge
+    const container = document.createElement('div');
+    container.style.display = 'flex';
+    container.style.gap = '8px';
+    container.style.alignItems = 'center';
+
+    // build a visible country badge (keeps original design feel)
+    const badge = document.createElement('div');
+    badge.id = 'countryBadge';
+    badge.style.minWidth = '65px';
+    badge.style.flex = '0 0 30%';
+    badge.style.padding = '10px';
+    badge.style.border = '1px solid #ccc';
+    badge.style.borderRadius = '10px';
+    badge.style.background = 'white';
+    badge.style.fontSize = '14px';
+    badge.style.direction = 'ltr';
+    badge.style.textAlign = 'left';
+    badge.style.display = 'flex';
+    badge.style.alignItems = 'center';
+    badge.style.gap = '6px';
+    badge.style.justifyContent = 'flex-start';
+
+    // initial badge content
+    function updateBadgeFromIti() {
+      const d = iti.getSelectedCountryData(); // {iso2, dialCode, name, ...}
+      const flag = iso2ToFlagEmoji(d.iso2);
+      // format: 🇸🇦 SA +966
+      badge.textContent = `${flag} ${d.iso2.toUpperCase()} +${d.dialCode}`;
+    }
+    updateBadgeFromIti();
+
+    // replace original phone row children with badge + phoneLocal, preserving order and styles
+    const phoneRow = phoneLocal.parentElement;
+    phoneRow.innerHTML = ''; // clear
+    phoneRow.appendChild(badge);
+    phoneRow.appendChild(phoneLocal);
+
+    // when user changes selected country in the intl dropdown, update the badge
+    itiElement.addEventListener('countrychange', function () {
+      updateBadgeFromIti();
+      // ensure country list item rewrite (in case)
+      setTimeout(rewriteCountryListItems, 50);
+    });
+
+    // List of ISO2 codes for which users often type local numbers without leading 0.
+    // We will add a '0' before validating if needed (so input "5xxxx" -> "05xxxx" for SA).
+    const countriesNeedingLeadingZero = ['sa','eg','ae','kw','om','qa','bh','jo','lb','sy','iq','dz','ma','tn']; // common examples
+
+    // Validation function
+    function validatePhoneInput(showError = true) {
+      const raw = phoneLocal.value.trim();
+      // if empty -> invalid
+      if (!raw) {
+        if (showError) showPhoneError("يرجى إدخال رقم الهاتف");
+        return false;
+      }
+
+      // get selected country iso2
+      const selected = iti.getSelectedCountryData();
+      const iso2 = selected.iso2;
+
+      // prepare a temporary value to validate (handle missing leading zero)
+      let tempVal = raw;
+      if (!tempVal.startsWith('0') && countriesNeedingLeadingZero.includes(iso2)) {
+        // if user typed e.g. "5xxxxxxxx" or "1xxxxxxxx" we prefix 0
+        if (/^\d+$/.test(tempVal)) {
+          tempVal = '0' + tempVal;
+        }
+      }
+
+      // backup original value
+      const original = phoneLocal.value;
+      // temporarily set the hidden iti input value to combination of dialCode + tempVal for validation
+      // We will set itiElement's value to the national number (tempVal) then call isValidNumber on iti.
+      // Note: intlTelInput expects the input element it's attached to; we set and validate on that element,
+      // so we temporarily set that element's value.
+      const backup = itiElement.value;
+      itiElement.value = tempVal; // national number (without dial)
+      // Also set selected country's dial code so that validation uses the right country context.
+      // intl-tel-input uses the selected country internally already.
       const isValid = iti.isValidNumber();
+      // restore backup
+      itiElement.value = backup;
 
       if (!isValid) {
-        errorDiv.style.display = "block";
-        return;
-      } else {
-        errorDiv.style.display = "none";
+        if (showError) showPhoneError("رقم الهاتف غير صالح بحسب الدولة المحددة");
+        return false;
       }
+
+      hidePhoneError();
+      return true;
+    }
+
+    function showPhoneError(msg) {
+      const el = document.getElementById('error-phone');
+      el.textContent = msg;
+      el.style.display = 'block';
+    }
+    function hidePhoneError() {
+      const el = document.getElementById('error-phone');
+      el.style.display = 'none';
+    }
+
+    // validate while typing (debounced)
+    let typingTimer;
+    phoneLocal.addEventListener('input', () => {
+      clearTimeout(typingTimer);
+      typingTimer = setTimeout(() => validatePhoneInput(false), 400);
+    });
+
+    // also validate on blur
+    phoneLocal.addEventListener('blur', () => validatePhoneInput(true));
+
+    // On form submit do final checks (no webhook/send as requested)
+    document.getElementById('registerForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      // hide previous errors
+      document.querySelectorAll('.error-msg').forEach(el => el.style.display = 'none');
+      document.getElementById('successMsg').style.display = 'none';
+
+      let valid = true;
+      const name = document.getElementById('name').value.trim();
+      const gender = document.getElementById('gender').value;
+      const terms = document.getElementById('terms').checked;
+
+      if (!name) {
+        valid = false;
+        document.getElementById('error-name').style.display = 'block';
+      }
+
+      const phoneOk = validatePhoneInput(true);
+      if (!phoneOk) valid = false;
+
+      if (!gender) {
+        valid = false;
+        document.getElementById('error-gender').style.display = 'block';
+      }
+      if (!terms) {
+        valid = false;
+        document.getElementById('error-terms').style.display = 'block';
+      }
+
+      if (!valid) return;
+
+      // build full phone in E.164 using iti (we need to set the hidden input value to the national value to get correct result)
+      // Prepare national value similar to validate step
+      let nationalVal = phoneLocal.value.trim();
+      const sel = iti.getSelectedCountryData();
+      if (!nationalVal.startsWith('0') && countriesNeedingLeadingZero.includes(sel.iso2)) {
+        nationalVal = '0' + nationalVal;
+      }
+      // temporarily set itiElement.value to nationalVal and call getNumber
+      const backupVal = itiElement.value;
+      itiElement.value = nationalVal;
+      const e164 = iti.getNumber(); // e.g. +9665xxxxxxxx
+      itiElement.value = backupVal;
 
       const data = {
         name,
-        phone: phoneNumber,
+        phone: e164,
         gender,
-        terms,
-        promo
+        accept_terms: terms,
+        accept_offers: document.getElementById('offers').checked
       };
 
-      // 🔗 ضع هنا رابط الـ Webhook الخاص بـ n8n
-      const webhookUrl = "https://example.com/webhook/n8n";
-
-      try {
-        await fetch(webhookUrl, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(data)
-        });
-        alert("تم إرسال البيانات بنجاح ✅");
-        e.target.reset();
-      } catch (error) {
-        alert("حدث خطأ أثناء الإرسال ❌");
-      }
+      // show success (no sending)
+      document.getElementById('successMsg').style.display = 'block';
+      console.log("Validated data (ready to send):", data);
     });
   </script>
-
 </body>
 </html>
