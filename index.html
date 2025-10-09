@@ -21,7 +21,6 @@
     * {
       box-sizing: border-box;
     }
-    
     /* إضافة الـ animation للشعار */
     @keyframes floatPulse {
       0%,100% { transform: translateY(0) scale(1); }
@@ -58,8 +57,26 @@
       letter-spacing: clamp(8px, 2vw, 16px);
       margin-bottom: 10px;
     }
-    .logo .f { color: var(--pink); }
-    .logo .e, .logo .z { color: #fff; text-shadow: 2px 2px 4px rgba(0,0,0,0.2); }
+    /* تعديل أنماط الشعار لإضافة الـ animation وتحسين الظل */
+    .logo span {
+      display: inline-block;
+      animation: floatPulse 3s ease-in-out infinite;
+    }
+    .logo .f {
+      color: var(--pink);
+      animation-delay: 0s;
+      text-shadow: 2px 2px 8px rgba(255,64,129,0.4);
+    }
+    .logo .e {
+      color: #fff;
+      text-shadow: 2px 2px 8px rgba(0,0,0,0.35);
+      animation-delay: 0.2s;
+    }
+    .logo .z {
+      color: #fff;
+      text-shadow: 2px 2px 8px rgba(0,0,0,0.35);
+      animation-delay: 0.4s;
+    }
 
     .sub-logo {
       font-size: clamp(14px, 2vw, 20px);
