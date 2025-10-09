@@ -203,36 +203,28 @@
   <style>
     /* ... الأنماط الموجودة ... */
 
-    /* أنماط إضافية لمكتبة الهاتف لتتناسب مع اللغة العربية */
+    /* أنماط إضافية لمكتبة الهاتف */
     .iti {
       width: 100%;
       direction: ltr;
-      text-align: left;
     }
-    
-    /* تعديل لتناسب التصميم الحالي مع مراعاة RTL */
-    .phone-container {
-      direction: ltr;
-      text-align: left;
-    }
-    
-    /* تعديل لعرض تسمية الحقل (label) بشكل صحيح */
-    .form-group label {
-      text-align: right;
-      display: block;
-      margin-bottom: 6px;
-      font-weight: 700;
-    }
-    
-    /* تخصيص شكل القائمة المنسدلة للدول */
-    .iti__country-list {
-      text-align: left;
-      direction: ltr;
-    }
-    
-    /* تعديل موضع الأعلام في القائمة */
     .iti__flag-container {
       direction: ltr;
+    }
+    /* تعديل لتناسب التصميم الحالي */
+    .iti__selected-flag {
+      border-radius: 10px 0 0 10px;
+    }
+    .iti input {
+      border-radius: 10px;
+    }
+    /* تخصيص لون الحدود عند التركيز */
+    .iti--focus .iti__selected-flag {
+      background-color: rgba(255, 64, 129, 0.05);
+    }
+    .iti input:focus {
+      border-color: var(--pink);
+      outline: none;
     }
   </style>
 </head>
@@ -253,10 +245,8 @@
 
       <div class="form-group">
         <label for="phone">رقم الهاتف</label>
-        <!-- إضافة div لتنظيم اتجاه حقل الهاتف -->
-        <div class="phone-container">
-          <input type="tel" id="phone" name="phone" placeholder="أدخل رقم الهاتف" required>
-        </div>
+        <!-- استبدال حقل الهاتف بحقل واحد يعمل مع المكتبة -->
+        <input type="tel" id="phone" name="phone" placeholder="أدخل رقم الهاتف" required>
         <div class="error-msg" id="error-phone">يرجى إدخال رقم هاتف صحيح</div>
       </div>
 
@@ -297,7 +287,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.13/js/utils.js"></script>
 
   <script>
-    // تهيئة مكتبة الهاتف الدولي مع تعديلات للغة العربية
+    // تهيئة مكتبة الهاتف الدولي
     const phoneInput = document.querySelector("#phone");
     const iti = window.intlTelInput(phoneInput, {
       utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.13/js/utils.js",
@@ -307,24 +297,61 @@
       autoPlaceholder: "aggressive", // تلميح تلقائي حسب الدولة
       customPlaceholder: function(selectedCountryPlaceholder, selectedCountryData) {
         return "أدخل " + selectedCountryPlaceholder;
-      },
-      // تعديل نصوص القائمة للغة العربية
-      i18n: {
-        search: "بحث",
-        searchPlaceholder: "بحث عن دولة..."
-      }
-    });
-    
-    // إضافة تعديل لتحسين تجربة المستخدم مع اللغة العربية
-    // تغيير اتجاه النص في حقل البحث عن الدول
-    document.addEventListener('click', function(e) {
-      if (e.target.classList.contains('iti__search-input')) {
-        e.target.style.textAlign = 'left';
-        e.target.style.direction = 'ltr';
       }
     });
 
-    // ... باقي الكود بدون تغيير ...
+    // مثال بسيط للتحقق مبدئي (يمكن تحسينه لاحقًا)
+    document.getElementById('registerForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      // مسح أي أخطاء سابقة
+      document.querySelectorAll('.error-msg').forEach(el => el.style.display = 'none');
+      document.getElementById('successMsg').style.display = 'none';
+
+      let valid = true;
+      const name = document.getElementById('name').value.trim();
+      const gender = document.getElementById('gender').value;
+      const terms = document.getElementById('terms').checked;
+
+      // التحقق من الاسم والجنس والشروط
+      if (!name) {
+        valid = false;
+        document.getElementById('error-name').style.display = 'block';
+      }
+      if (!gender) {
+        valid = false;
+        document.getElementById('error-gender').style.display = 'block';
+      }
+      if (!terms) {
+        valid = false;
+        document.getElementById('error-terms').style.display = 'block';
+      }
+
+      // التحقق من رقم الهاتف باستخدام المكتبة
+      if (!iti.isValidNumber()) {
+        valid = false;
+        document.getElementById('error-phone').textContent = 'يرجى إدخال رقم هاتف صحيح للدولة المختارة';
+        document.getElementById('error-phone').style.display = 'block';
+      }
+
+      if (!valid) return;
+
+      // الحصول على الرقم بالتنسيق الدولي
+      const fullPhone = iti.getNumber();
+
+      // بيانات للتجربة
+      const data = {
+        name,
+        phone: fullPhone,
+        gender,
+        accept_terms: terms,
+        accept_offers: document.getElementById('offers').checked
+      };
+
+      console.log("Sending data:", data);
+
+      // لمحاكاة الإرسال الناجح
+      document.getElementById('successMsg').style.display = 'block';
+    });
   </script>
 </body>
 </html>
