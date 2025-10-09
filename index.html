@@ -160,9 +160,27 @@
 
     .success-message {
       color: var(--pink);
-      font-size: 16px;
+      font-size: 20px;
       display: none;
       margin-top: 15px;
+      text-align: center;
+      font-weight: bold;
+      line-height: 1.6;
+    }
+    
+    /* إضافة نمط جديد للرسالة عند ظهورها وحدها */
+    .success-only {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 200px;
+    }
+    
+    /* إضافة أيقونة أكبر للنجاح */
+    .success-icon {
+      font-size: 50px;
+      margin-bottom: 20px;
     }
 
     /* أنماط إضافية لمكتبة الهاتف */
@@ -173,7 +191,7 @@
     .iti__flag-container {
       direction: ltr;
     }
-    /* تعديل لتناسب التصميم الحالي */
+    /* تعديل لتناسب التصميج الحالي */
     .iti__selected-flag {
       border-radius: 10px 0 0 10px;
     }
@@ -252,8 +270,14 @@
       <button type="submit" class="submit-btn">تسجيل الآن</button>
 
       <div class="form-note">بياناتك آمنة ولن يتم مشاركتها.</div>
-      <div class="success-message" id="successMsg">✅ تم التسجيل بنجاح! شكرًا لانضمامك لعائلة FEZ ☕️</div>
     </form>
+    
+    <!-- تعديل رسالة النجاح لتكون خارج الفورم -->
+    <div class="success-message" id="successMsg">
+      <div class="success-icon">✅</div>
+      تم التسجيل بنجاح!<br>
+      شكرًا لانضمامك لعائلة FEZ ☕️
+    </div>
   </div>
 
   <!-- إضافة مكتبات JavaScript -->
@@ -292,7 +316,6 @@
       e.preventDefault();
       // مسح أي أخطاء سابقة
       document.querySelectorAll('.error-msg').forEach(el => el.style.display = 'none');
-      document.getElementById('successMsg').style.display = 'none';
 
       let valid = true;
       const name = document.getElementById('name').value.trim();
@@ -336,8 +359,16 @@
 
       console.log("Sending data:", data);
 
-      // لمحاكاة الإرسال الناجح
-      document.getElementById('successMsg').style.display = 'block';
+      // إخفاء الفورم وإظهار رسالة النجاح
+      document.getElementById('registerForm').style.display = 'none';
+      const successMsg = document.getElementById('successMsg');
+      successMsg.style.display = 'block';
+      
+      // إضافة فئة للرسالة لتظهر في المنتصف
+      successMsg.classList.add('success-only');
+      
+      // تخزين حالة النجاح في sessionStorage
+      // لن يتم استخدامه لأن المطلوب هو إظهار الفورم عند تحديث الصفحة
     });
   </script>
 </body>
