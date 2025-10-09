@@ -21,6 +21,13 @@
     * {
       box-sizing: border-box;
     }
+    
+    /* إضافة الـ animation للشعار */
+    @keyframes floatPulse {
+      0%,100% { transform: translateY(0) scale(1); }
+      50% { transform: translateY(-10px) scale(1.05); }
+    }
+
     body, html {
       margin: 0;
       padding: 0;
