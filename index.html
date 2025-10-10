@@ -80,30 +80,32 @@
     }
 
     .sub-logo {
-      font-size: clamp(14px, 2vw, 20px);
-      letter-spacing: 4px;
+      font-size: clamp(12px, 1.5vw, 16px);
+      letter-spacing: 3px;
       color: var(--muted);
       text-transform: uppercase;
-      margin-bottom: 25px;
+      margin-bottom: 15px; /* تقليل المسافة */
     }
 
     .form-group {
-      margin-bottom: 18px;
+      margin-bottom: 10px; /* تقليل المسافة بين الحقول */
       text-align: right;
     }
     .form-group label {
       display: block;
-      margin-bottom: 6px;
+      margin-bottom: 3px; /* تقليل المسافة */
       font-weight: 700;
+      font-size: 14px; /* تقليل حجم الخط */
     }
     .form-group input,
     .form-group select {
       width: 100%;
-      padding: 10px;
+      padding: 6px; /* تقليل الـ padding */
       border: 1px solid #ccc;
-      border-radius: 10px;
-      font-size: 16px;
+      border-radius: 8px;
+      font-size: 14px; /* تقليل حجم الخط */
       direction: ltr;
+      height: 32px; /* تحديد ارتفاع ثابت أقل */
     }
     .form-group input:focus,
     .form-group select:focus {
@@ -112,40 +114,42 @@
     }
 
     .checkbox-group {
-      margin: 12px 0;
+      margin: 8px 0; /* تقليل المسافة */
       text-align: right;
     }
     .checkbox-group label {
       cursor: pointer;
       display: inline-flex;
       align-items: center;
-      gap: 8px;
+      gap: 6px;
       color: var(--text);
+      font-size: 13px; /* تقليل حجم الخط */
     }
     .checkbox-group input[type="checkbox"] {
-      width: 18px;
-      height: 18px;
+      width: 16px;
+      height: 16px;
       accent-color: var(--pink);
     }
 
     .error-msg {
       color: var(--pink);
-      font-size: 14px;
-      margin-top: 5px;
+      font-size: 12px; /* تقليل حجم الخط */
+      margin-top: 2px; /* تقليل المسافة */
       display: none;
     }
 
     .submit-btn {
       width: 100%;
-      padding: 12px;
+      padding: 8px; /* تقليل الـ padding */
       background-color: var(--pink);
       color: white;
-      font-size: 18px;
+      font-size: 16px;
       border: none;
-      border-radius: 30px;
+      border-radius: 25px;
       cursor: pointer;
       transition: background-color 0.3s ease;
-      margin-top: 15px;
+      margin-top: 10px; /* تقليل المسافة */
+      height: 36px; /* تحديد ارتفاع ثابت أقل */
     }
     .submit-btn:hover {
       background-color: #e73370;
@@ -219,10 +223,17 @@
     
     /* نمط للملاحظة تحت عنوان حقل المُرشِّح */
     .referrer-note {
-      font-size: 11px; /* تقليل حجم الخط أكثر */
+      font-size: 11px;
       color: var(--muted);
-      margin-bottom: 3px; /* تقليل المسافة أكثر */
+      margin-bottom: 2px; /* تقليل المسافة أكثر */
+      margin-top: -2px; /* إضافة هامش سالب للأعلى */
       text-align: right;
+    }
+    
+    /* تعديل ارتفاع حقول الهاتف */
+    .iti input {
+      border-radius: 8px;
+      height: 32px; /* تحديد ارتفاع ثابت أقل */
     }
   </style>
 </head>
