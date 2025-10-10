@@ -252,6 +252,15 @@
         <div class="error-msg" id="error-gender">يرجى اختيار الجنس</div>
       </div>
 
+      <!-- إضافة حقل رقم هاتف المُرشِّح -->
+      <div class="form-group">
+        <label for="referrer_phone">رقم هاتف المُرشِّح (اختياري)</label>
+        <div class="phone-container">
+          <input type="tel" id="referrer_phone" name="referrer_phone" placeholder="أدخل رقم هاتف من رشّحك للكافيه (لتحصلوا على نقاط ترشيح إضافية 🎉)">
+        </div>
+        <div class="error-msg" id="error-referrer_phone">يرجى إدخال رقم هاتف صحيح للمُرشِّح</div>
+      </div>
+
       <div class="checkbox-group">
         <label>
           <input type="checkbox" id="terms" name="terms" required>
@@ -303,6 +312,23 @@
       }
     });
     
+    // تهيئة مكتبة الهاتف الدولي لحقل المُرشِّح
+    const referrerPhoneInput = document.querySelector("#referrer_phone");
+    const itiReferrer = window.intlTelInput(referrerPhoneInput, {
+      utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.13/js/utils.js",
+      initialCountry: "sa",
+      preferredCountries: ["sa", "eg", "ae", "kw", "bh", "qa", "om"],
+      separateDialCode: true,
+      autoPlaceholder: "aggressive",
+      customPlaceholder: function(selectedCountryPlaceholder, selectedCountryData) {
+        return "أدخل " + selectedCountryPlaceholder;
+      },
+      i18n: {
+        search: "بحث",
+        searchPlaceholder: "بحث عن دولة..."
+      }
+    });
+    
     // إضافة تعديل لتحسين تجربة المستخدم مع اللغة العربية
     document.addEventListener('click', function(e) {
       if (e.target.classList.contains('iti__search-input')) {
@@ -343,6 +369,17 @@
         document.getElementById('error-phone').style.display = 'block';
       }
 
+      // التحقق من رقم هاتف المُرشِّح إذا تم إدخاله
+      let referrerPhone = '';
+      if (referrerPhoneInput.value.trim() !== '') {
+        if (!itiReferrer.isValidNumber()) {
+          valid = false;
+          document.getElementById('error-referrer_phone').style.display = 'block';
+        } else {
+          referrerPhone = itiReferrer.getNumber();
+        }
+      }
+
       if (!valid) return;
 
       // الحصول على الرقم بالتنسيق الدولي
@@ -353,6 +390,7 @@
         name,
         phone: fullPhone,
         gender,
+        referrer_phone: referrerPhone,
         accept_terms: terms,
         accept_offers: document.getElementById('offers').checked
       };
