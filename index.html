@@ -217,6 +217,14 @@
       text-align: left;
       direction: ltr;
     }
+    
+    /* نمط للملاحظة تحت عنوان حقل المُرشِّح */
+    .referrer-note {
+      font-size: 13px;
+      color: var(--muted);
+      margin-bottom: 6px;
+      text-align: right;
+    }
   </style>
 </head>
 
@@ -255,8 +263,9 @@
       <!-- إضافة حقل رقم هاتف المُرشِّح -->
       <div class="form-group">
         <label for="referrer_phone">رقم هاتف المُرشِّح (اختياري)</label>
+        <div class="referrer-note">لتحصلوا على نقاط ترشيح إضافية 🎉</div>
         <div class="phone-container">
-          <input type="tel" id="referrer_phone" name="referrer_phone" placeholder="أدخل رقم هاتف من رشّحك للكافيه (لتحصلوا على نقاط ترشيح إضافية 🎉)">
+          <input type="tel" id="referrer_phone" name="referrer_phone" placeholder="أدخل رقم هاتف من رشّحك للكافيه">
         </div>
         <div class="error-msg" id="error-referrer_phone">يرجى إدخال رقم هاتف صحيح للمُرشِّح</div>
       </div>
